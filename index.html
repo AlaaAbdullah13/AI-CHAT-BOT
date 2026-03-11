@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy Chat — AI Assistant</title>
+    <meta name="description"
+        content="Galaxy Chat: a powerful AI assistant with image generation, chat history, and a stunning galaxy interface.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="galaxy-bg">
+
+    <!-- Background Layers -->
+    <div id="nebula-layer">
+        <!-- Extra blobs beyond ::before/::after -->
+        <!-- Blue / electric center blob -->
+        <div class="nebula-blob" style="
+            width:600px; height:550px;
+            background: radial-gradient(ellipse at center, rgba(140,60,255,0.12) 0%, rgba(100,40,200,0.06) 45%, transparent 70%);
+            top:25%; left:35%;
+            --nb-blur:130px; --nb-dur:38s; --nb-delay:-8s;
+            --nb-tx:70px; --nb-ty:-60px; --nb-s:1.18;">
+        </div>
+        <!-- Magenta / hot-pink bottom-left -->
+        <div class="nebula-blob" style="
+            width:550px; height:500px;
+            background: radial-gradient(ellipse at center, rgba(220,40,200,0.14) 0%, rgba(180,20,160,0.07) 45%, transparent 70%);
+            bottom:5%; left:5%;
+            --nb-blur:110px; --nb-dur:42s; --nb-delay:-21s;
+            --nb-tx:-50px; --nb-ty:-80px; --nb-s:1.12;">
+        </div>
+        <!-- Rose / warm-pink bottom-center -->
+        <div class="nebula-blob" style="
+            width:580px; height:480px;
+            background: radial-gradient(ellipse at center, rgba(255,40,160,0.12) 0%, rgba(200,20,120,0.06) 45%, transparent 70%);
+            bottom:-60px; left:40%;
+            --nb-blur:120px; --nb-dur:35s; --nb-delay:-6s;
+            --nb-tx:90px; --nb-ty:40px; --nb-s:1.10;">
+        </div>
+        <!-- Indigo / deep-violet top-right -->
+        <div class="nebula-blob" style="
+            width:650px; height:550px;
+            background: radial-gradient(ellipse at center, rgba(100,40,255,0.15) 0%, rgba(80,20,200,0.08) 40%, transparent 70%);
+            top:-100px; right:-120px;
+            --nb-blur:140px; --nb-dur:45s; --nb-delay:-30s;
+            --nb-tx:-70px; --nb-ty:90px; --nb-s:1.15;">
+        </div>
+
+        <!-- Aurora light rays -->
+        <div class="aurora-ray" style="
+            --ray-top:15%; --ray-h:220px;
+            --ray-color: linear-gradient(180deg, transparent 0%, rgba(160,100,255,0.10) 50%, transparent 100%);
+            --ray-dur:15s; --ray-delay:0s;">
+        </div>
+        <div class="aurora-ray" style="
+            --ray-top:45%; --ray-h:180px;
+            --ray-color: linear-gradient(180deg, transparent 0%, rgba(255,60,180,0.08) 50%, transparent 100%);
+            --ray-dur:20s; --ray-delay:-5s;">
+        </div>
+        <div class="aurora-ray" style="
+            --ray-top:70%; --ray-h:150px;
+            --ray-color: linear-gradient(180deg, transparent 0%, rgba(140,80,255,0.08) 50%, transparent 100%);
+            --ray-dur:25s; --ray-delay:-12s;">
+        </div>
+    </div>
+    <div id="sparkles"></div>
+
+
+    <!-- App Layout -->
+    <div id="app-layout">
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <span class="logo-icon">✦</span>
+                    <span class="logo-text">Galaxy Chat</span>
+                </div>
+                <button id="sidebar-close" class="icon-btn" title="Close sidebar">✕</button>
+            </div>
+
+            <button id="new-chat-btn" class="new-chat-btn">
+                <span class="new-chat-icon">＋</span>
+                New Chat
+            </button>
+
+            <div class="sidebar-section-label">Recent Sessions</div>
+            <div id="session-list" class="session-list">
+                <!-- Sessions injected by JS -->
+                <p class="empty-history" id="empty-history-msg">No conversations yet.<br>Start chatting below!</p>
+            </div>
+
+            <div class="sidebar-footer">
+                <button id="export-button" class="sidebar-action-btn" title="Export current chat">
+                    ↓ Export Chat
+                </button>
+            </div>
+        </aside>
+
+        <!-- Sidebar overlay backdrop -->
+        <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+
+        <!-- Main Area -->
+        <div id="main-area">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-content">
+                    <button id="sidebar-toggle" class="icon-btn hamburger" title="Toggle sidebar">
+                        <span></span><span></span><span></span>
+                    </button>
+                    <h1 class="header-logo">
+                        <span class="logo-star">✦</span> Galaxy Chat
+                    </h1>
+                    <div class="header-right">
+                        <div class="status-dot"></div>
+                        <span class="status-label">AI Online</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Chat Area -->
+            <main id="chat-container">
+                <div id="chat-log">
+                    <!-- Messages injected by JS -->
+                </div>
+                <div id="welcome-screen" class="welcome-screen">
+                    <div class="welcome-icon">✦</div>
+                    <h2 class="welcome-title">Welcome to Galaxy Chat</h2>
+                    <p class="welcome-sub">Your AI assistant is ready.<br>Ask anything or say <em>"draw a..."</em> to
+                        generate an image.</p>
+                    <div class="welcome-chips">
+                        <button class="chip" data-prompt="Tell me something fascinating about the universe">🌌 Universe
+                            facts</button>
+                        <button class="chip" data-prompt="Draw a futuristic space station at sunset">🖼️ Generate
+                            art</button>
+                        <button class="chip" data-prompt="Write me a short poem about stars">✨ Write a poem</button>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Footer / Input -->
+            <footer class="app-footer">
+                <div class="input-wrapper">
+                    <input type="text" id="user-input" placeholder="Message Galaxy Chat..." autocomplete="off">
+                    <button id="send-button" class="send-btn" title="Send message">
+                        <span class="send-icon">▶</span>
+                    </button>
+                </div>
+            </footer>
+        </div>
+
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>
